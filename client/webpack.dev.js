@@ -8,13 +8,14 @@ module.exports = merge(common, {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
-    publicPath: 'auto',
+    publicPath: '/',
   },
   devServer: {
     port: 3000,
     open: true,
     hot: true,
     contentBase: path.join(__dirname, 'build'),
+    historyApiFallback: true,
   },
   devtool: 'inline-source-map',
 });

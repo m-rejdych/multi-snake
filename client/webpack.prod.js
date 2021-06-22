@@ -5,9 +5,9 @@ const common = require('./webpack.common');
 
 module.exports = merge(common, {
   output: {
-    filename: 'bundle.[hash].js',
+    filename: 'bundle.[contenthash].js',
     path: path.resolve(__dirname, 'build'),
-    publicPath: 'auto',
+    publicPath: '/',
   },
   mode: 'production',
 });

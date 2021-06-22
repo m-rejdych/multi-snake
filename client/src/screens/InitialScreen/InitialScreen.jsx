@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Input, VStack, FormControl, FormLabel, FormHelperText, Button } from '@chakra-ui/react';
 
 import ROUTES from '../../shared/constants/routes';
+import { setName } from '../../store/actions/player';
 
 const InitialScreen = () => {
   const [value, setValue] = useState('');
   const [error, setError] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -17,6 +20,7 @@ const InitialScreen = () => {
     if (!value.trim().length) {
       setError(true);
     } else {
+      dispatch(setName(value));
       history.push(ROUTES.SELECT_GAME);
     }
   };

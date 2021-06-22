@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "start:production": "npm run build && serve -s build"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "@babel/preset-react": "^7.14.5",
     "babel-loader": "^8.2.2",
     "html-webpack-plugin": "^5.3.2",
+    "serve": "^12.0.0",
     "webpack": "^5.40.0",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2",
@@ -30,6 +32,8 @@
     "framer-motion": "^4.1.17",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-router-dom": "^5.2.0"
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.1.0"
   }
 }
