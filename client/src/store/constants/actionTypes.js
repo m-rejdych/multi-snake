@@ -2,3 +2,7 @@ export const PLAYER = {
   SET_NAME: 'PLAYER_SET_NAME',
   SET_COLOR: 'PLAYER_SET_COLOR',
 };
+
+export const GAME = {
+  SET_SETTINGS: 'GAME_SET_SETTINGS',
+};
