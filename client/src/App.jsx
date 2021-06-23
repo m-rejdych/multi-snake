@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
@@ -9,12 +9,6 @@ import AppContainer from './shared/components/AppContainer';
 
 const App = () => {
   const name = useSelector((state) => state.player.name);
-
-  useEffect(() => {
-    setTimeout(() => {
-      throw new Error('Crazy error!');
-    }, 5000);
-  }, []);
 
   const routes = name ? (
     <Switch>
