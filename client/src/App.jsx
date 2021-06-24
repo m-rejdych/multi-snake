@@ -9,6 +9,7 @@ import GameSelectorScreen from './screens/GameSelectorScreen';
 import NewGameScreen from './screens/NewGameScreen';
 import GameScreen from './screens/GameScreen';
 import JoinGameScreen from './screens/JoinGameScreen';
+import WaitScreen from './screens/WaitScreen';
 
 const App = () => {
   const name = useSelector((state) => state.player.name);
@@ -19,6 +20,7 @@ const App = () => {
       <Route path={ROUTES.NEW_GAME} component={NewGameScreen} />
       <Route path={ROUTES.GAME} component={GameScreen} />
       <Route path={ROUTES.JOIN_GAME} component={JoinGameScreen} />
+      <Route path={ROUTES.WAIT} component={WaitScreen} />
       <Route exact path={ROUTES.ROOT} component={InitialScreen} />
       <Redirect to={ROUTES.ROOT} />
     </Switch>

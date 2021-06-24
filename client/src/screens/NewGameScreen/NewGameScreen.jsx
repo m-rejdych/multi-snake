@@ -96,7 +96,6 @@ const NewGameScreen = () => {
 
   const handleStart = () => {
     dispatch(setSettings(values));
-    history.push(ROUTES.GAME);
   };
 
   return (

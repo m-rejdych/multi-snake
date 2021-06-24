@@ -20,6 +20,7 @@ const InitialScreen = () => {
     if (!value.trim().length) {
       setError(true);
     } else {
+      setError(false);
       dispatch(setName(value));
       history.push(ROUTES.SELECT_GAME);
     }
