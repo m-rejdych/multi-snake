@@ -6,6 +6,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 import App from './App';
 import ErrorBoundary from './shared/components/ErrorBoundary';
+import SocketProvider from './context/SocketProvider';
 import store from './store';
 import theme from './theme';
 
@@ -14,7 +15,9 @@ const Root = () => (
     <Provider store={store}>
       <ChakraProvider theme={theme}>
         <ErrorBoundary>
-          <App />
+          <SocketProvider>
+            <App />
+          </SocketProvider>
         </ErrorBoundary>
       </ChakraProvider>
     </Provider>

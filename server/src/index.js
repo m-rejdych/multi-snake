@@ -3,8 +3,7 @@ const path = require('path');
 const helmet = require('helmet');
 const socketio = require('socket.io');
 const { createServer } = require('http');
-
-const { PORT, HOST } = require('./config');
+require('dotenv').config();
 
 const app = express();
 
@@ -23,4 +22,10 @@ const io = socketio(server, {
   },
 });
 
-server.listen(PORT, () => console.log(`App is running on http://${HOST}:${PORT}`));
+io.on('connection', (client) => {
+  client.emit('hello', 'Hello there!');
+});
+
+server.listen(process.env.PORT, () =>
+  console.log(`App is running on http://${process.env.HOST}:${process.env.PORT}`)
+);
