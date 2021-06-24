@@ -5,4 +5,5 @@ export const PLAYER = {
 
 export const GAME = {
   SET_SETTINGS: 'GAME_SET_SETTINGS',
+  SET_GAME_CODE: 'GAME_SET_GAME_CODE',
 };

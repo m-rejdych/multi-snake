@@ -25,11 +25,21 @@ const InitialScreen = () => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') handleClick();
+  };
+
   return (
     <VStack spacing={5}>
       <FormControl minW="md" minH="28">
         <FormLabel>Enter name</FormLabel>
-        <Input placeholder="My name is Mr Snake" size="lg" value={value} onChange={handleChange} />
+        <Input
+          placeholder="My name is Mr Snake"
+          size="lg"
+          value={value}
+          onChange={handleChange}
+          onKeyPress={handleKeyPress}
+        />
         {error && (
           <FormHelperText color="red.400">Don't be so shy! Enter your snake's name!</FormHelperText>
         )}

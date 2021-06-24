@@ -22,6 +22,10 @@ const GameSelectorScreen = () => {
     history.push(ROUTES.NEW_GAME);
   };
 
+  const handleJoinGame = () => {
+    history.push(ROUTES.JOIN_GAME);
+  };
+
   return (
     <Container
       height="100vh"
@@ -38,7 +42,7 @@ const GameSelectorScreen = () => {
             <Button size="lg" colorScheme="teal" onClick={handleCreateNewGame}>
               Create new game
             </Button>
-            <Button size="lg" colorScheme="purple">
+            <Button size="lg" colorScheme="purple" onClick={handleJoinGame}>
               Join the game
             </Button>
           </VStack>
