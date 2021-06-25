@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
   Heading,
@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 import { setSettings } from '../../store/actions/game';
+import { SocketContext } from '../../context/SocketContext';
 import ROUTES from '../../shared/constants/routes';
 
 const settings = [
@@ -44,17 +45,17 @@ const settings = [
       {
         id: 'small-size',
         label: 'Small',
-        value: 'small',
+        value: '1',
       },
       {
         id: 'medium-size',
         label: 'Medium',
-        value: 'medium',
+        value: '2',
       },
       {
         id: 'big-size',
         label: 'Big',
-        value: 'big',
+        value: '3',
       },
     ],
   },
@@ -64,18 +65,18 @@ const settings = [
     options: [
       {
         id: 'slow-speed',
-        label: 'Slow',
+        label: '1',
         value: 'slow',
       },
       {
         id: 'regular-speed',
         label: 'Regular',
-        value: 'regular',
+        value: '2',
       },
       {
         id: 'fast-speed',
         label: 'Fast',
-        value: 'fast',
+        value: '3',
       },
     ],
   },
@@ -87,6 +88,9 @@ const NewGameScreen = () => {
     boardSize: '',
     snakeSpeed: '',
   });
+  const name = useSelector((state) => state.player.name);
+  const color = useSelector((state) => state.player.color);
+  const socket = useContext(SocketContext);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -96,6 +100,7 @@ const NewGameScreen = () => {
 
   const handleStart = () => {
     dispatch(setSettings(values));
+    socket.emit('create-game', { gameSettings: values, player: { name, color } });
   };
 
   return (

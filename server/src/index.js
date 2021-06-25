@@ -22,8 +22,10 @@ const io = socketio(server, {
   },
 });
 
-io.on('connection', (client) => {
-  client.emit('hello', 'Hello there!');
+io.on('connection', (socket) => {
+  socket.on('create-game', (data) => {
+    console.log(socket.id, data);
+  });
 });
 
 server.listen(process.env.PORT, () =>
