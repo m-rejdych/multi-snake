@@ -56,7 +56,31 @@ io.on('connection', (socket) => {
 
     socket.join(gameCode);
 
-    socket.emit('join-game', { game, playerId: socket.id });
+    socket.emit('joined-game', { game, playerId: socket.id });
+  });
+
+  socket.on('join-game', ({ gameCode, player: { name, color } }) => {
+    const isValid = state.validateCode(gameCode);
+    if (!isValid) {
+      socket.emit('invalid-code');
+      return;
+    }
+
+    const game = state.games[gameCode];
+
+    const { position, snake } = Player.generateSnake(game.size);
+    const player = new Player({ name, color, position, snake, id: socket.id });
+
+    const joined = state.addPlayer(player, gameCode);
+
+    if (!joined) {
+      socket.emit('could-not-join');
+      return;
+    }
+
+    socket.join(gameCode);
+    socket.emit('joined-game', { game, playerId: socket.id });
+    socket.to(gameCode).emit('new-player', player);
   });
 
   socket.on('disconnect', () => {

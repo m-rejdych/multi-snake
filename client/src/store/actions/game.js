@@ -9,3 +9,8 @@ export const setJoinedGame = (game) => ({
   type: GAME.SET_JOINED_GAME,
   payload: game,
 });
+
+export const addPlayer = (player) => ({
+  type: GAME.ADD_PLAYER,
+  payload: player,
+});

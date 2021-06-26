@@ -22,13 +22,15 @@ class Game {
   _getWinner = () => this.players.find(({ isAlive }) => isAlive)?.id;
 
   addPlayer = (player) => {
-    if (this.players.length === this.numOfPlayers) return;
+    if (this.players.length === this.numOfPlayers || this.started) return false;
 
     this.players.push(player);
 
     if (this.players.length === this.numOfPlayers) {
       this.started = true;
     }
+
+    return true;
   };
 
   removePlayer = (playerId) => {

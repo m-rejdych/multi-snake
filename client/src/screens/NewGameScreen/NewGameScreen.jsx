@@ -96,10 +96,11 @@ const NewGameScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on('join-game', ({ game, playerId }) => {
+    socket.on('joined-game', ({ game, playerId }) => {
       console.log(game);
       dispatch(setJoinedGame(game));
       dispatch(setId(playerId));
+      history.push(ROUTES.WAIT);
     });
   }, [socket]);
 

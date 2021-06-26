@@ -15,6 +15,11 @@ const reducer = (state = initialState, { type, payload }) => {
       return { ...state, settings: payload };
     case GAME.SET_JOINED_GAME:
       return { ...state, joinedGame: payload };
+    case GAME.ADD_PLAYER:
+      return {
+        ...state,
+        joinedGame: { ...state.joinedGame, players: [...state.joinedGame.players, payload] },
+      };
     default:
       return state;
   }
