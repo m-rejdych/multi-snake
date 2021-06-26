@@ -81,10 +81,25 @@ io.on('connection', (socket) => {
     socket.join(gameCode);
     socket.emit('joined-game', { game, playerId: socket.id });
     socket.to(gameCode).emit('new-player', player);
+
+    if (game.started) {
+      let count = 10;
+      const interval = setInterval(() => {
+        count--;
+
+        if (count >= 0) {
+          io.to(gameCode).emit('start-counter', count);
+        } else {
+          clearInterval(interval);
+          io.to(gameCode).emit('game-start');
+        }
+      }, 1000);
+    }
   });
 
   socket.on('disconnect', () => {
     state.removePlayer(socket.id);
+    console.log(state);
   });
 });
 
