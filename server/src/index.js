@@ -48,12 +48,12 @@ io.on('connection', (socket) => {
     if (!data) return;
 
     const {
-      gameSettings: { boardSize, snakeSpeed, players },
+      gameSettings: { snakeSize, snakeSpeed, players },
       player: { name, color },
     } = data;
 
     const gameCode = Game.generateCode();
-    const convertedSize = Game.convertSize(Number(boardSize));
+    const convertedSize = Game.convertSize(Number(snakeSize));
     const convertedSpeed = Game.convertSpeed(Number(snakeSpeed));
 
     const { snake, position } = Player.generateSnake(convertedSize);

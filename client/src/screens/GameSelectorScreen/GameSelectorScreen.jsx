@@ -9,8 +9,8 @@ import ColorPicker from './ColorPicker';
 import { setColor as setStoreColor } from '../../store/actions/player';
 
 const GameSelectorScreen = () => {
-  const [color, setColor] = useState('red.500');
   const selectedColor = useSelector((state) => state.player.color);
+  const [color, setColor] = useState(selectedColor || 'red.500');
   const history = useHistory();
   const dispatch = useDispatch();
 

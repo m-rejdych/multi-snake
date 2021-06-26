@@ -40,8 +40,8 @@ const settings = [
     ],
   },
   {
-    id: 'boardSize',
-    label: 'Board size',
+    id: 'snakeSize',
+    label: 'Snake size',
     options: [
       {
         id: 'small-size',
@@ -86,7 +86,7 @@ const settings = [
 const NewGameScreen = () => {
   const [values, setValues] = useState({
     players: '',
-    boardSize: '',
+    snakeSize: '',
     snakeSpeed: '',
   });
   const name = useSelector((state) => state.player.name);

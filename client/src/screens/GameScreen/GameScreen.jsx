@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, useTheme } from '@chakra-ui/react';
+import { Box, useTheme, useColorMode } from '@chakra-ui/react';
 
 import { SocketContext } from '../../context/SocketContext';
 
@@ -19,24 +19,31 @@ const GameScreen = () => {
   const playerId = useSelector((state) => state.player.id);
   const canvasRef = useRef(null);
   const socket = useContext(SocketContext);
+  const { colorMode } = useColorMode();
   const theme = useTheme();
+  console.log(theme);
 
   const drawCanvas = (ctx) => {
     const canvas = canvasRef.current;
 
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    ctx.fillStyle = colorMode === 'dark' ? theme.colors.blackAlpha[500] : theme.colors.grey[600];
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   };
 
-  const drawSnake = (ctx, cellSize, player) => {
-    ctx.fillStyle = getColor(theme.colors, player.color);
-    player.snake.forEach(({ x, y }) => {
+  const drawSnake = (ctx, cellSize, { color, snake, name, position }) => {
+    ctx.fillStyle = getColor(theme.colors, color);
+
+    snake.forEach(({ x, y }) => {
       ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
     });
+
+    ctx.fillStyle = colorMode === 'dark' ? theme.colors.white : theme.colors.black;
+    ctx.font = `${theme.fontSizes.md} ${theme.fonts.body}`;
+    ctx.fillText(name, position.x * cellSize - name.length * 2.5, position.y * cellSize - 10);
   };
 
   const drawFood = (ctx, cellSize, { x, y }) => {
-    ctx.fillStyle = theme.colors.orange[900];
+    ctx.fillStyle = theme.colors.orange[700];
     ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
   };
 

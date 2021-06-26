@@ -3,7 +3,7 @@ import { GAME } from '../constants/actionTypes';
 const initialState = {
   settings: {
     players: '',
-    boardSize: '',
+    snakeSize: '',
     snakeSpeed: '',
   },
   joinedGame: null,
