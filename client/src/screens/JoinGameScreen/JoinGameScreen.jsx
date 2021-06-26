@@ -10,7 +10,7 @@ import ROUTES from '../../shared/constants/routes';
 
 const JoinGameScreen = () => {
   const [value, setValue] = useState('');
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
   const name = useSelector((state) => state.player.name);
   const color = useSelector((state) => state.player.color);
   const socket = useContext(SocketContext);
@@ -24,6 +24,14 @@ const JoinGameScreen = () => {
 
       history.push(ROUTES.WAIT);
     });
+
+    socket.on('invalid-code', () => {
+      setError('Invalid code!');
+    });
+
+    socket.on('could-not-join', () => {
+      setError('Could not join the game!');
+    });
   }, [socket]);
 
   const handleChange = (e) => {
@@ -32,19 +40,19 @@ const JoinGameScreen = () => {
 
   const handlePlay = () => {
     if (!value.trim().length) {
-      setError(true);
+      setError('Invalid code!');
     } else {
       socket.emit('join-game', { gameCode: value, player: { name, color } });
-      setError(false);
+      setError('');
     }
   };
 
   return (
     <VStack spacing={10}>
-      <FormControl>
+      <FormControl minH="28">
         <FormLabel>Enter game code</FormLabel>
         <Input size="lg" value={value} onChange={handleChange} />
-        {error && <FormHelperText color="red.400">Invalid game code!</FormHelperText>}
+        {!!error && <FormHelperText color="red.400">{error}</FormHelperText>}
       </FormControl>
       <Button size="lg" colorScheme="teal" onClick={handlePlay}>
         Start

@@ -21,6 +21,25 @@ class Game {
 
   _getWinner = () => this.players.find(({ isAlive }) => isAlive)?.id;
 
+  _checkCollision = () => {
+    const alivePlayers = this.players.filter(({ isAlive }) => isAlive);
+    const playersSnakes = alivePlayers.map(({ id, snake, position }) => [id, { snake, position }]);
+
+    playersSnakes.forEach(([id, { position }]) => {
+      const otherPlayers = playersSnakes.filter(([playerId]) => id !== playerId);
+
+      if (
+        otherPlayers.some(([_, { snake }]) =>
+          snake.some(({ x, y }) => x === position.x && y === position.y)
+        )
+      ) {
+        this.players = this.players.map((player) =>
+          player.id === id ? { ...player, isAlive: false } : player
+        );
+      }
+    });
+  };
+
   addPlayer = (player) => {
     if (this.players.length === this.numOfPlayers || this.started) return false;
 
@@ -47,6 +66,8 @@ class Game {
           this.players.filter(({ isAlive }) => isAlive).map(({ snake }) => snake)
         );
       });
+
+    this._checkCollision();
 
     const isFinished = this._checkIsFinished();
 

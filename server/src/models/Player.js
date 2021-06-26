@@ -24,13 +24,13 @@ class Player {
     );
   };
 
-  updatePosition = (gridSize, food) => {
+  updatePosition = (gridSize, food, snakes) => {
     if (this.vel.x === 0 && this.vel.y === 0) return;
 
     this.position.x += this.vel.x;
     this.position.y += this.vel.y;
 
-    if (this._checkIsDead(gridSize, snakes)) {
+    if (this._checkIsDead(gridSize)) {
       this.isAlive = false;
       return;
     }
