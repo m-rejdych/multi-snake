@@ -5,8 +5,8 @@ class Food {
   }
 
   generateFood = (gridSize, snakes) => {
-    const x = Math.floor(Math.random() * gridSize) + 1;
-    const y = Math.floor(Math.random() * gridSize) + 1;
+    const x = Math.floor(Math.random() * gridSize);
+    const y = Math.floor(Math.random() * gridSize);
 
     if (
       (x === this.x && y === this.y) ||

@@ -16,21 +16,24 @@ class Player {
 
   _checkIsDead = (gridSize) => {
     return (
-      this.position.x + this.vel.x > gridSize ||
-      this.position.x + this.vel.x <= 0 ||
-      this.position.y + this.vel.y >= gridSize ||
-      this.position.y + this.vel.y <= 0
+      this.position.x >= gridSize ||
+      this.position.x < 0 ||
+      this.position.y >= gridSize ||
+      this.position.y < 0 ||
+      this.snake.slice(0, -1).some(({ x, y }) => x === this.position.x && y === this.position.y)
     );
   };
 
-  updatePosition = (gridSize, food, snakes) => {
-    if (this._checkIsDead(gridSize)) {
-      this.isAlive = false;
-      return;
-    }
+  updatePosition = (gridSize, food) => {
+    if (this.vel.x === 0 && this.vel.y === 0) return;
 
     this.position.x += this.vel.x;
     this.position.y += this.vel.y;
+
+    if (this._checkIsDead(gridSize, snakes)) {
+      this.isAlive = false;
+      return;
+    }
 
     this.snake.push({ ...this.position });
 
@@ -46,16 +49,16 @@ class Player {
   updateVel = (key) => {
     switch (key) {
       case ARROWS.UP:
-        this.vel = { x: 0, y: -1 };
+        this.vel = this.vel.y === 1 ? this.vel : { x: 0, y: -1 };
         break;
       case ARROWS.RIGHT:
-        this.vel = { x: 1, y: 0 };
+        this.vel = this.vel.x === -1 ? this.vel : { x: 1, y: 0 };
         break;
       case ARROWS.DOWN:
-        this.vel = { x: 0, y: 1 };
+        this.vel = this.vel.y === -1 ? this.vel : { x: 0, y: 1 };
         break;
       case ARROWS.LEFT:
-        this.vel = { x: -1, y: 0 };
+        this.vel = this.vel.x === 1 ? this.vel : { x: -1, y: 0 };
         break;
       default:
         return;
@@ -63,8 +66,8 @@ class Player {
   };
 
   static generateSnake(gridSize) {
-    const x = Math.floor(Math.random() * gridSize) + 1;
-    const y = Math.floor(Math.random() * gridSize) + 1;
+    const x = Math.floor(Math.random() * gridSize);
+    const y = Math.floor(Math.random() * gridSize);
 
     const position = {
       x,
@@ -72,16 +75,15 @@ class Player {
     };
 
     const toLeft = gridSize / 2 <= x;
-    const toTop = gridSize / 2 <= y;
 
     const snake = [
       {
         x: toLeft ? x - 2 : x + 2,
-        y: toTop ? y - 2 : y + 2,
+        y,
       },
       {
         x: toLeft ? x - 1 : x + 1,
-        y: toTop ? y - 1 : y + 1,
+        y,
       },
       {
         ...position,

@@ -35,11 +35,9 @@ const WaitScreen = () => {
       <Heading>{count === null ? 'Waiting for others to join...' : 'Game is starting!'}</Heading>
       {count === null ? (
         <>
-          <Text fontSize="4xl">
-            Your game code is:
-            <Text fontSize="4xl" fontWeight="bold" display="inline-block">
-              {gameCode}
-            </Text>
+          <Text fontSize="4xl">Game code</Text>
+          <Text fontSize="4xl" fontWeight="bold">
+            {gameCode}
           </Text>
           <Text fontSize="3xl">
             Players: {connectedPlayers}/{numOfPlayers}

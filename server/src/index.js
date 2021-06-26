@@ -29,6 +29,21 @@ const io = socketio(server, {
 const state = new State();
 
 io.on('connection', (socket) => {
+  socket.on('keydown', (key) => {
+    const isValidPlayer = state.validatePlayer(socket.id);
+    if (!isValidPlayer) return;
+
+    const gameCode = state.players[socket.id];
+    const isValidGame = state.validateCode(gameCode);
+    if (!isValidGame) return;
+
+    const game = state.games[gameCode];
+    if (!game.started) return;
+
+    const player = game.players.find(({ id }) => id === socket.id);
+    player.updateVel(key);
+  });
+
   socket.on('create-game', (data) => {
     if (!data) return;
 
@@ -56,7 +71,10 @@ io.on('connection', (socket) => {
 
     socket.join(gameCode);
 
-    socket.emit('joined-game', { game, playerId: socket.id });
+    socket.emit('joined-game', {
+      game: { gameCode, numOfPlayers: Number(players), players: [player] },
+      playerId: socket.id,
+    });
   });
 
   socket.on('join-game', ({ gameCode, player: { name, color } }) => {
@@ -78,11 +96,21 @@ io.on('connection', (socket) => {
       return;
     }
 
+    const { numOfPlayers, players } = game;
+
     socket.join(gameCode);
-    socket.emit('joined-game', { game, playerId: socket.id });
+    socket.emit('joined-game', {
+      game: { gameCode, numOfPlayers, players: players.map(({ id }) => id) },
+      playerId: socket.id,
+    });
     socket.to(gameCode).emit('new-player', player);
 
     if (game.started) {
+      game.food.generateFood(
+        game.size,
+        game.players.map(({ snake }) => snake)
+      );
+
       let count = 10;
       const interval = setInterval(() => {
         count--;
@@ -92,6 +120,17 @@ io.on('connection', (socket) => {
         } else {
           clearInterval(interval);
           io.to(gameCode).emit('game-start');
+          const gameInterval = setInterval(() => {
+            const winner = game.gameLoop();
+
+            if (game.finished) {
+              clearInterval(gameInterval);
+
+              io.to(gameCode).emit('game-finished', winner);
+            } else {
+              io.to(gameCode).emit('game-loop', game);
+            }
+          }, 1000 / game.speed);
         }
       }, 1000);
     }

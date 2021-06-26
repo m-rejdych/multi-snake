@@ -44,7 +44,7 @@ class Game {
         player.updatePosition(
           this.size,
           this.food,
-          this.players.map(({ snake }) => snake)
+          this.players.filter(({ isAlive }) => isAlive).map(({ snake }) => snake)
         );
       });
 
@@ -54,7 +54,10 @@ class Game {
       this.finished = true;
       const winner = this._getWinner();
       this.winner = winner;
+      return winner;
     }
+
+    return null;
   };
 
   static generateCode = () => {
