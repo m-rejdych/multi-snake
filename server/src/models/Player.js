@@ -80,8 +80,8 @@ class Player {
         y: toTop ? y - 2 : y + 2,
       },
       {
-        x: toLefet ? x - 1 : x + 1,
-        y: toLefet ? y - 1 : y + 1,
+        x: toLeft ? x - 1 : x + 1,
+        y: toTop ? y - 1 : y + 1,
       },
       {
         ...position,

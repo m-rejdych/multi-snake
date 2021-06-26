@@ -1,12 +1,12 @@
 const Food = require('./Food');
 
 class Game {
-  constructor({ gameCode, numOfPlayers, size, speed, creator }) {
+  constructor({ gameCode, numOfPlayers, size, speed }) {
     this.gameCode = gameCode;
     this.numOfPlayers = numOfPlayers;
     this.size = size;
     this.speed = speed;
-    this.players = [creator];
+    this.players = [];
     this.started = false;
     this.finished = false;
     this.food = new Food();
@@ -25,6 +25,10 @@ class Game {
     if (this.players.length === this.numOfPlayers) return;
 
     this.players.push(player);
+
+    if (this.players.length === this.numOfPlayers) {
+      this.started = true;
+    }
   };
 
   removePlayer = (playerId) => {
@@ -63,11 +67,11 @@ class Game {
 
   static convertSize = (size) => {
     switch (size) {
-      case 2:
-        return 30;
       case 3:
-        return 40;
+        return 10;
       case 1:
+        return 30;
+      case 2:
       default:
         return 20;
     }

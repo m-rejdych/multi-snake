@@ -3,8 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FormControl, FormLabel, Input, FormHelperText, Button, VStack } from '@chakra-ui/react';
 
-import { setGameCode } from '../../store/actions/game';
-
 const JoinGameScreen = () => {
   const [value, setValue] = useState('');
   const [error, setError] = useState(false);
@@ -20,7 +18,6 @@ const JoinGameScreen = () => {
       setError(true);
     } else {
       setError(false);
-      dispatch(setGameCode(value));
     }
   };
 

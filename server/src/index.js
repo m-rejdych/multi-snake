@@ -5,6 +5,10 @@ const socketio = require('socket.io');
 const { createServer } = require('http');
 require('dotenv').config();
 
+const State = require('./models/State');
+const Game = require('./models/Game');
+const Player = require('./models/Player');
+
 const app = express();
 
 app.use(helmet());
@@ -22,9 +26,41 @@ const io = socketio(server, {
   },
 });
 
+const state = new State();
+
 io.on('connection', (socket) => {
   socket.on('create-game', (data) => {
-    console.log(socket.id, data);
+    if (!data) return;
+
+    const {
+      gameSettings: { boardSize, snakeSpeed, players },
+      player: { name, color },
+    } = data;
+
+    const gameCode = Game.generateCode();
+    const convertedSize = Game.convertSize(Number(boardSize));
+    const convertedSpeed = Game.convertSpeed(Number(snakeSpeed));
+
+    const { snake, position } = Player.generateSnake(convertedSize);
+    const player = new Player({ id: socket.id, name, color, position, snake });
+
+    const game = new Game({
+      speed: convertedSpeed,
+      size: convertedSize,
+      numOfPlayers: Number(players),
+      gameCode,
+    });
+
+    state.addGame(game);
+    state.addPlayer(player, gameCode);
+
+    socket.join(gameCode);
+
+    socket.emit('join-game', { game, playerId: socket.id });
+  });
+
+  socket.on('disconnect', () => {
+    state.removePlayer(socket.id);
   });
 });
 

@@ -18,14 +18,18 @@ class State {
 
   removeGame(gameCode) {
     const gameExists = this.validateCode(gameCode);
-    if (gameExists) return;
+    if (!gameExists) return;
 
     delete this.games[gameCode];
   }
 
   addPlayer = (player, gameCode) => {
     const gameExists = this.validateCode(gameCode);
-    if (!gameExists || this.games[gameCode].players.length === this.games[gameCode].numOfPlayers) {
+    if (
+      !gameExists ||
+      this.games[gameCode].players.length === this.games[gameCode].numOfPlayers ||
+      this.games[gameCode].started
+    ) {
       return;
     }
 
@@ -42,7 +46,7 @@ class State {
     if (!gameExists) return;
 
     if (this.games[gameCode].players.length <= 1) {
-      delete this.games[gameCode];
+      this.removeGame(gameCode);
     } else {
       this.games[gameCode].removePlayer(playerId);
     }

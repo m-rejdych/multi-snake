@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -12,7 +12,8 @@ import {
   Button,
 } from '@chakra-ui/react';
 
-import { setSettings } from '../../store/actions/game';
+import { setSettings, setJoinedGame } from '../../store/actions/game';
+import { setId } from '../../store/actions/player';
 import { SocketContext } from '../../context/SocketContext';
 import ROUTES from '../../shared/constants/routes';
 
@@ -65,8 +66,8 @@ const settings = [
     options: [
       {
         id: 'slow-speed',
-        label: '1',
-        value: 'slow',
+        label: 'slow',
+        value: '1',
       },
       {
         id: 'regular-speed',
@@ -93,6 +94,14 @@ const NewGameScreen = () => {
   const socket = useContext(SocketContext);
   const history = useHistory();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    socket.on('join-game', ({ game, playerId }) => {
+      console.log(game);
+      dispatch(setJoinedGame(game));
+      dispatch(setId(playerId));
+    });
+  }, [socket]);
 
   const handleChange = (id, value) => {
     setValues({ ...values, [id]: value });

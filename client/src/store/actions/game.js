@@ -5,7 +5,7 @@ export const setSettings = (settings) => ({
   payload: settings,
 });
 
-export const setGameCode = (code) => ({
-  type: GAME.SET_GAME_CODE,
-  payload: code,
+export const setJoinedGame = (game) => ({
+  type: GAME.SET_JOINED_GAME,
+  payload: game,
 });
