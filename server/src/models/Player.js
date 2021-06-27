@@ -47,18 +47,25 @@ class Player {
   };
 
   updateVel = (key) => {
+    const isStarting = this.vel.x === 0 && this.vel.y === 0;
+    let possibleX;
+    if (isStarting) {
+      possibleX = this.snake[this.snake.length - 2].x > this.position.x ? -1 : 1;
+    }
+
     switch (key) {
       case ARROWS.UP:
         this.vel = this.vel.y === 1 ? this.vel : { x: 0, y: -1 };
         break;
       case ARROWS.RIGHT:
-        this.vel = this.vel.x === -1 ? this.vel : { x: 1, y: 0 };
+        this.vel = this.vel.x === -1 || (isStarting && possibleX !== 1) ? this.vel : { x: 1, y: 0 };
         break;
       case ARROWS.DOWN:
         this.vel = this.vel.y === -1 ? this.vel : { x: 0, y: 1 };
         break;
       case ARROWS.LEFT:
-        this.vel = this.vel.x === 1 ? this.vel : { x: -1, y: 0 };
+        this.vel =
+          this.vel.x === 1 || (isStarting && possibleX !== -1) ? this.vel : { x: -1, y: 0 };
         break;
       default:
         return;

@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 import { SocketContext } from '../../context/SocketContext';
-import { reset as resetGame } from '../../store/actions/game';
+import { setJoinedGame, reset as resetGame } from '../../store/actions/game';
 import { reset as resetPlayer } from '../../store/actions/player';
 import ROUTES from '../../shared/constants/routes';
 
@@ -105,7 +105,8 @@ const GameScreen = () => {
       });
     });
 
-    socket.on('game-restarted', () => {
+    socket.on('game-restarted', (game) => {
+      dispatch(setJoinedGame(game));
       history.push(ROUTES.WAIT);
     });
 

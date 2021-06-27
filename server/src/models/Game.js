@@ -90,6 +90,7 @@ class Game {
       this.size,
       this.players.map(({ snake }) => snake)
     );
+    this.started = this.numOfPlayers === this.players.length;
   };
 
   static generateCode = () => {

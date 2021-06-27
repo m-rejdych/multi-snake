@@ -143,11 +143,18 @@ io.on('connection', (socket) => {
 
   const handleRestartGame = () => {
     const gameCode = state.players[socket.id];
-    state.games[gameCode].restart();
+    const game = state.games[gameCode];
+    game.restart();
 
-    io.to(gameCode).emit('game-restarted');
+    io.to(gameCode).emit('game-restarted', {
+      gameCode,
+      numOfPlayers: game.numOfPlayers,
+      players: game.players.map(({ id, name }) => ({ id, name })),
+    });
 
-    setStartInterval();
+    if (game.started) {
+      setStartInterval();
+    }
   };
 
   const handleLeave = () => {
