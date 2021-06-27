@@ -66,7 +66,7 @@ const settings = [
     options: [
       {
         id: 'slow-speed',
-        label: 'slow',
+        label: 'Slow',
         value: '1',
       },
       {
@@ -102,7 +102,11 @@ const NewGameScreen = () => {
       dispatch(setId(playerId));
       history.push(ROUTES.WAIT);
     });
-  }, [socket]);
+
+    return () => {
+      socket.off('joined-game');
+    };
+  }, []);
 
   const handleChange = (id, value) => {
     setValues({ ...values, [id]: value });

@@ -28,7 +28,13 @@ const WaitScreen = () => {
     socket.on('game-start', () => {
       history.push(ROUTES.GAME);
     });
-  }, [socket]);
+
+    return () => {
+      socket.off('new-player');
+      socket.off('start-counter');
+      socket.off('game-start');
+    };
+  }, []);
 
   return (
     <VStack spacing={10}>

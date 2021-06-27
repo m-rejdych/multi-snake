@@ -65,6 +65,15 @@ class Player {
     }
   };
 
+  restart = (gridSize) => {
+    const { position, snake } = this.constructor.generateSnake(gridSize);
+
+    this.snake = snake;
+    this.position = position;
+    this.vel = { x: 0, y: 0 };
+    this.isAlive = true;
+  };
+
   static generateSnake(gridSize) {
     const x = Math.floor(Math.random() * gridSize);
     const y = Math.floor(Math.random() * gridSize);

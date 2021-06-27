@@ -1,12 +1,12 @@
 const Food = require('./Food');
 
 class Game {
-  constructor({ gameCode, numOfPlayers, size, speed }) {
+  constructor({ gameCode, numOfPlayers, size, speed, players = [] }) {
     this.gameCode = gameCode;
     this.numOfPlayers = numOfPlayers;
     this.size = size;
     this.speed = speed;
-    this.players = [];
+    this.players = players;
     this.started = false;
     this.finished = false;
     this.food = new Food();
@@ -33,9 +33,8 @@ class Game {
           snake.some(({ x, y }) => x === position.x && y === position.y)
         )
       ) {
-        this.players = this.players.map((player) =>
-          player.id === id ? { ...player, isAlive: false } : player
-        );
+        const player = this.players.find(({ id: playerId }) => playerId === id);
+        player.isAlive = false;
       }
     });
   };
@@ -79,6 +78,18 @@ class Game {
     }
 
     return null;
+  };
+
+  restart = () => {
+    this.players.forEach((player) => {
+      player.restart(this.size);
+    });
+    this.finished = false;
+    this.winner = null;
+    this.food.generateFood(
+      this.size,
+      this.players.map(({ snake }) => snake)
+    );
   };
 
   static generateCode = () => {

@@ -44,9 +44,37 @@ io.on('connection', (socket) => {
     player.updateVel(key);
   });
 
-  socket.on('create-game', (data) => {
-    if (!data) return;
+  const setStartInterval = () => {
+    const gameCode = state.players[socket.id];
+    const game = state.games[gameCode];
 
+    let count = 10;
+    const interval = setInterval(() => {
+      count--;
+      // console.log('count interval', game);
+
+      if (count >= 0) {
+        io.to(gameCode).emit('start-counter', count);
+      } else {
+        clearInterval(interval);
+        io.to(gameCode).emit('game-start');
+        const gameInterval = setInterval(() => {
+          const winner = game.gameLoop();
+          // console.log('game interval');
+
+          if (game.finished) {
+            clearInterval(gameInterval);
+
+            io.to(gameCode).emit('game-finished', winner);
+          } else {
+            io.to(gameCode).emit('game-loop', game);
+          }
+        }, 1000 / game.speed);
+      }
+    }, 1000);
+  };
+
+  const handleCreateGame = (data) => {
     const {
       gameSettings: { snakeSize, snakeSpeed, players },
       player: { name, color },
@@ -72,12 +100,12 @@ io.on('connection', (socket) => {
     socket.join(gameCode);
 
     socket.emit('joined-game', {
-      game: { gameCode, numOfPlayers: Number(players), players: [player] },
+      game: { gameCode, numOfPlayers: Number(players), players: [{ id: socket.id, name }] },
       playerId: socket.id,
     });
-  });
+  };
 
-  socket.on('join-game', ({ gameCode, player: { name, color } }) => {
+  const handleJoinGame = ({ gameCode, player: { name, color } }) => {
     const isValid = state.validateCode(gameCode);
     if (!isValid) {
       socket.emit('invalid-code');
@@ -100,7 +128,7 @@ io.on('connection', (socket) => {
 
     socket.join(gameCode);
     socket.emit('joined-game', {
-      game: { gameCode, numOfPlayers, players: players.map(({ id }) => id) },
+      game: { gameCode, numOfPlayers, players: players.map(({ id, name }) => ({ id, name })) },
       playerId: socket.id,
     });
     socket.to(gameCode).emit('new-player', player);
@@ -111,30 +139,24 @@ io.on('connection', (socket) => {
         game.players.map(({ snake }) => snake)
       );
 
-      let count = 10;
-      const interval = setInterval(() => {
-        count--;
-
-        if (count >= 0) {
-          io.to(gameCode).emit('start-counter', count);
-        } else {
-          clearInterval(interval);
-          io.to(gameCode).emit('game-start');
-          const gameInterval = setInterval(() => {
-            const winner = game.gameLoop();
-
-            if (game.finished) {
-              clearInterval(gameInterval);
-
-              io.to(gameCode).emit('game-finished', winner);
-            } else {
-              io.to(gameCode).emit('game-loop', game);
-            }
-          }, 1000 / game.speed);
-        }
-      }, 1000);
+      setStartInterval();
     }
-  });
+  };
+
+  const handleRestartGame = () => {
+    const gameCode = state.players[socket.id];
+    state.games[gameCode].restart();
+
+    io.to(gameCode).emit('game-restarted');
+
+    setStartInterval();
+  };
+
+  socket.on('create-game', handleCreateGame);
+
+  socket.on('join-game', handleJoinGame);
+
+  socket.on('game-restart', handleRestartGame);
 
   socket.on('disconnect', () => {
     state.removePlayer(socket.id);

@@ -32,7 +32,13 @@ const JoinGameScreen = () => {
     socket.on('could-not-join', () => {
       setError('Could not join the game!');
     });
-  }, [socket]);
+
+    return () => {
+      socket.off('joined-game');
+      socket.off('invalid-code');
+      socket.off('could-not-join');
+    };
+  }, []);
 
   const handleChange = (e) => {
     setValue(e.target.value);
