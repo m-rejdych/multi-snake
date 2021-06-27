@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "server/src/index.js",
-  "engines": {
-    "node": "16.1.0"
-  },
   "scripts": {
     "install:all": "npm install && npm install --prefix server && npm install --prefix client",
     "build:all": "npm run build --prefix server && npm run build --prefix client",
     "heroku-postbuild": "npm run install:all && npm run build:all",
     "start:dev": "concurrently \"npm start --prefix server\" \"npm start --prefix client\"",
     "start": "node server/build/bundle.js"
+  },
+  "engines": {
+    "node": "16.1.0"
   },
   "repository": {
     "type": "git",
