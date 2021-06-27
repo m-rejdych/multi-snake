@@ -8,6 +8,9 @@
     "start": "nodemon src/index.js",
     "start:prod": "rm -rf build && npm run build && node build/bundle.js"
   },
+  "engines": {
+    "node": "16.1.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -14,7 +14,6 @@ const app = express();
 app.use(helmet());
 
 if (process.env.NODE_ENV === 'production') {
-  console.log(process.env.PORT);
   app.use(express.static(path.join(__dirname, '..', '..', 'client', 'build')));
 }
 

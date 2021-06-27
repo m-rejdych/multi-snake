@@ -8,6 +8,9 @@
     "build": "webpack --config webpack.prod.js",
     "start:prod": "npm run build && serve -s build"
   },
+  "engines": {
+    "node": "16.1.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
