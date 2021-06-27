@@ -11,5 +11,11 @@ module.exports = merge(common, {
     publicPath: '/',
   },
   mode: 'production',
-  plugins: [new EnvironmentPlugin(['NODE_ENV', 'PORT', 'SERVER_URL'])],
+  plugins: [
+    new EnvironmentPlugin({
+      NODE_ENV: 'production',
+      SERVER_URL: 'http://localhost:4000',
+      PORT: 4000,
+    }),
+  ],
 });
