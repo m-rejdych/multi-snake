@@ -179,6 +179,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(process.env.PORT || 80, () =>
-  console.log(`App is running on ${process.env.SERVER_URL}`)
+server.listen(process.env.PORT || 4000, () =>
+  console.log(`App is running on ${process.env.SERVER_URL || 'http://localhost:4000'}`)
 );
