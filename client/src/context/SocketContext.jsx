@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 
-const socket = io(`http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`);
+const socket = io(process.env.SERVER_URL);
 
 export const SocketContext = React.createContext();
 

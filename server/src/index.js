@@ -179,6 +179,4 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(process.env.PORT, () =>
-  console.log(`App is running on http://${process.env.HOST}:${process.env.PORT}`)
-);
+server.listen(process.env.PORT, () => console.log(`App is running on ${process.env.SERVER_URL}`));
