@@ -24,7 +24,6 @@
     "@emotion/styled": "^11.3.0",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "*",
-    "dotenv-webpack": "^7.0.3",
     "framer-motion": "^4.1.17",
     "html-webpack-plugin": "^5.3.2",
     "react": "^17.0.2",

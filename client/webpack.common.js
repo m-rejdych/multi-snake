@@ -1,6 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const DotenvPlugin = require('dotenv-webpack');
+const EnvironmentPlugin = require('webpack').EnvironmentPlugin;
 
 module.exports = {
   entry: './src/index.js',
@@ -26,6 +26,6 @@ module.exports = {
       template: './public/index.html',
     }),
     new CleanWebpackPlugin(),
-    new DotenvPlugin(),
+    new EnvironmentPlugin(['NODE_ENV', 'PORT', 'SERVER_URL']),
   ],
 };
