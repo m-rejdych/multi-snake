@@ -15,6 +15,9 @@ app.use(helmet());
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', '..', 'client', 'build')));
+  app.use((req, res) => {
+    res.redirect('/');
+  });
 }
 
 const server = createServer(app);
