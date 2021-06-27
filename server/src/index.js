@@ -14,7 +14,8 @@ const app = express();
 app.use(helmet());
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '..', '..', 'build')));
+  console.log();
+  app.use(express.static(path.join(__dirname, '..', '..', 'client', 'build')));
 }
 
 const server = createServer(app);
@@ -179,4 +180,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(process.env.PORT, () => console.log(`App is running on ${process.env.SERVER_URL}`));
+server.listen(process.env.PORT || 80, () =>
+  console.log(`App is running on ${process.env.SERVER_URL}`)
+);
