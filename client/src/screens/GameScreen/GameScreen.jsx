@@ -41,7 +41,7 @@ const GameScreen = () => {
   const drawCanvas = (ctx) => {
     const canvas = canvasRef.current;
 
-    ctx.fillStyle = colorMode === 'dark' ? theme.colors.blackAlpha[500] : theme.colors.grey[600];
+    ctx.fillStyle = colorMode === 'dark' ? theme.colors.blackAlpha[500] : theme.colors.gray[200];
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   };
 
