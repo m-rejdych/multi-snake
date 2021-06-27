@@ -1,5 +1,6 @@
 const { merge } = require('webpack-merge');
 const path = require('path');
+const DotenvPlugin = require('dotenv-webpack');
 
 const common = require('./webpack.common');
 
@@ -18,4 +19,5 @@ module.exports = merge(common, {
     historyApiFallback: true,
   },
   devtool: 'inline-source-map',
+  plugins: [new DotenvPlugin()],
 });

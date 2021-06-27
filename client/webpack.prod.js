@@ -1,5 +1,6 @@
 const { merge } = require('webpack-merge');
 const path = require('path');
+const EnvironmentPlugin = require('webpack').EnvironmentPlugin;
 
 const common = require('./webpack.common');
 
@@ -10,4 +11,5 @@ module.exports = merge(common, {
     publicPath: '/',
   },
   mode: 'production',
+  plugins: [new EnvironmentPlugin(['NODE_ENV', 'PORT', 'SERVER_URL'])],
 });

@@ -97,7 +97,6 @@ const NewGameScreen = () => {
 
   useEffect(() => {
     socket.on('joined-game', ({ game, playerId }) => {
-      console.log(game);
       dispatch(setJoinedGame(game));
       dispatch(setId(playerId));
       history.push(ROUTES.WAIT);

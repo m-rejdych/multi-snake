@@ -6,16 +6,12 @@ const socket = io(process.env.SERVER_URL || 'http://localhost:4000');
 export const SocketContext = React.createContext();
 
 const SocketProvider = ({ children }) => {
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('connected');
-    });
-
-    return () => {
+  useEffect(
+    () => () => {
       socket.disconnect();
-      console.log('disconnected');
-    };
-  }, [socket]);
+    },
+    [socket]
+  );
 
   return <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>;
 };
