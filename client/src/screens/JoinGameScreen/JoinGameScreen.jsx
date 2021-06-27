@@ -53,11 +53,17 @@ const JoinGameScreen = () => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key !== 'Enter') return;
+
+    handlePlay();
+  };
+
   return (
     <VStack spacing={10}>
       <FormControl minH="28">
         <FormLabel>Enter game code</FormLabel>
-        <Input size="lg" value={value} onChange={handleChange} />
+        <Input size="lg" value={value} onChange={handleChange} onKeyPress={handleKeyPress} />
         {!!error && <FormHelperText color="red.400">{error}</FormHelperText>}
       </FormControl>
       <Button size="lg" colorScheme="teal" onClick={handlePlay}>
