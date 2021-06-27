@@ -20,6 +20,8 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         joinedGame: { ...state.joinedGame, players: [...state.joinedGame.players, payload] },
       };
+    case GAME.RESET:
+      return initialState;
     default:
       return state;
   }

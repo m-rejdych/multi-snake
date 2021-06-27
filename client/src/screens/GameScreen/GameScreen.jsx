@@ -1,9 +1,20 @@
 import React, { useRef, useEffect, useContext, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Box, useTheme, useColorMode, Heading, Text, Center, Button } from '@chakra-ui/react';
+import {
+  Box,
+  useTheme,
+  useColorMode,
+  Heading,
+  Text,
+  Center,
+  Button,
+  HStack,
+} from '@chakra-ui/react';
 
 import { SocketContext } from '../../context/SocketContext';
+import { reset as resetGame } from '../../store/actions/game';
+import { reset as resetPlayer } from '../../store/actions/player';
 import ROUTES from '../../shared/constants/routes';
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'];
@@ -25,6 +36,7 @@ const GameScreen = () => {
   const { colorMode } = useColorMode();
   const history = useHistory();
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   const drawCanvas = (ctx) => {
     const canvas = canvasRef.current;
@@ -109,7 +121,14 @@ const GameScreen = () => {
 
   const handleRestart = () => {
     setWinner(null);
-    socket.emit('game-restart', joinedGame.gameCode);
+    socket.emit('game-restart');
+  };
+
+  const handleExit = () => {
+    socket.emit('leave');
+    dispatch(resetPlayer());
+    dispatch(resetGame());
+    history.push(ROUTES.ROOT);
   };
 
   return (
@@ -131,9 +150,14 @@ const GameScreen = () => {
             </Text>
           </Center>
           <Center position="absolute" top="calc(100% + 16px)" width="100%">
-            <Button size="lg" colorScheme="teal" onClick={handleRestart}>
-              Restart
-            </Button>
+            <HStack spacing={5}>
+              <Button size="lg" colorScheme="teal" onClick={handleRestart}>
+                Restart
+              </Button>
+              <Button size="lg" colorScheme="purple" onClick={handleExit}>
+                Exit
+              </Button>
+            </HStack>
           </Center>
         </>
       )}

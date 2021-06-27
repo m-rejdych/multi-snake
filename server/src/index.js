@@ -29,7 +29,7 @@ const io = socketio(server, {
 const state = new State();
 
 io.on('connection', (socket) => {
-  socket.on('keydown', (key) => {
+  const handleKeyDown = (key) => {
     const isValidPlayer = state.validatePlayer(socket.id);
     if (!isValidPlayer) return;
 
@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
 
     const player = game.players.find(({ id }) => id === socket.id);
     player.updateVel(key);
-  });
+  };
 
   const setStartInterval = () => {
     const gameCode = state.players[socket.id];
@@ -51,7 +51,6 @@ io.on('connection', (socket) => {
     let count = 10;
     const interval = setInterval(() => {
       count--;
-      // console.log('count interval', game);
 
       if (count >= 0) {
         io.to(gameCode).emit('start-counter', count);
@@ -60,7 +59,6 @@ io.on('connection', (socket) => {
         io.to(gameCode).emit('game-start');
         const gameInterval = setInterval(() => {
           const winner = game.gameLoop();
-          // console.log('game interval');
 
           if (game.finished) {
             clearInterval(gameInterval);
@@ -152,15 +150,25 @@ io.on('connection', (socket) => {
     setStartInterval();
   };
 
+  const handleLeave = () => {
+    const gameCode = state.players[socket.id];
+    socket.leave(gameCode);
+
+    state.removePlayer(socket.id);
+  };
+
   socket.on('create-game', handleCreateGame);
 
   socket.on('join-game', handleJoinGame);
 
   socket.on('game-restart', handleRestartGame);
 
+  socket.on('keydown', handleKeyDown);
+
+  socket.on('leave', handleLeave);
+
   socket.on('disconnect', () => {
     state.removePlayer(socket.id);
-    console.log(state);
   });
 });
 

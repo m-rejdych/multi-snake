@@ -14,3 +14,7 @@ export const addPlayer = (player) => ({
   type: GAME.ADD_PLAYER,
   payload: player,
 });
+
+export const reset = () => ({
+  type: GAME.RESET,
+});

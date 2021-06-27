@@ -14,6 +14,8 @@ const reducer = (state = initialState, { type, payload }) => {
       return { ...state, name: payload };
     case PLAYER.SET_COLOR:
       return { ...state, color: payload };
+    case PLAYER.RESET:
+      return initialState;
     default:
       return state;
   }

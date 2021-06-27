@@ -14,3 +14,7 @@ export const setColor = (color) => ({
   type: PLAYER.SET_COLOR,
   payload: color,
 });
+
+export const reset = () => ({
+  type: PLAYER.RESET,
+});
