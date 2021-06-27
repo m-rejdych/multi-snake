@@ -38,9 +38,11 @@ Start the server
   npm run start:dev
 ```
 
+The app will run on http://localhost:3000 by default.
+
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file inside client and server directories.
+To run this project, should add the following environment variables to your .env file for both client and server directories.
 
 `SERVER_URL` ex: "localhost"
 
