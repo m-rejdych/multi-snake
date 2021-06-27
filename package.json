@@ -1,0 +1,24 @@
+{
+  "name": "multi-snake",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/build/bundle.js",
+  "engines": {
+    "node": "16.1.0"
+  },
+  "scripts": {
+    "build": "npm install --prefix server && npm run build --prefix server && rsync -a ./server/build ./ && rm -rf ./server/build && npm install --prefix client && npm run build --prefix client && rsync -a ./client/build-client ./ && rm -rf ./client/build-client",
+    "start": "node build/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-rejdych/multi-snake.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/m-rejdych/multi-snake/issues"
+  },
+  "homepage": "https://github.com/m-rejdych/multi-snake#readme"
+}

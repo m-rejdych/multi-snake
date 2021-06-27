@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "webpack",
-    "start": "node src/index.js",
+    "start": "node build/bundle.js",
     "start:dev": "nodemon src/index.js",
     "start:prod": "rm -rf build && npm run build && node build/bundle.js",
     "dev": "concurrently \"npm run start:dev\" \"npm start --prefix ../client\""
