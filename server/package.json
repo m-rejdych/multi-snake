@@ -5,29 +5,24 @@
   "main": "src/index.js",
   "scripts": {
     "build": "webpack",
-    "start": "node build/bundle.js",
-    "start:dev": "nodemon src/index.js",
-    "start:prod": "rm -rf build && npm run build && node build/bundle.js",
-    "dev": "concurrently \"npm run start:dev\" \"npm start --prefix ../client\""
-  },
-  "engines": {
-    "node": "16.1.0"
+    "start": "nodemon src/index.js",
+    "start:prod": "rm -rf build && npm run build && node build/bundle.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
   "dependencies": {
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "*",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
-    "nodemon": "^2.0.7",
     "socket.io": "^4.1.2",
-    "babel-loader": "^8.2.2",
-    "clean-webpack-plugin": "*",
-    "concurrently": "^6.2.0",
     "webpack": "^5.40.0",
     "webpack-cli": "^4.7.2",
     "webpack-node-externals": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }

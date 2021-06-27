@@ -2,12 +2,15 @@
   "name": "multi-snake",
   "version": "1.0.0",
   "description": "",
-  "main": "server/build/bundle.js",
+  "main": "server/src/index.js",
   "engines": {
     "node": "16.1.0"
   },
   "scripts": {
-    "heroku-postbuild": "npm install --prefix server && npm run build --prefix server && npm install --prefix client && npm run build --prefix client",
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+    "build:all": "npm run build --prefix server && npm run build --prefix client",
+    "heroku-postbuild": "npm run install:all && npm run build:all",
+    "start:dev": "concurrently \"npm start --prefix server\" \"npm start --prefix client\"",
     "start": "node server/build/bundle.js"
   },
   "repository": {
@@ -20,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/m-rejdych/multi-snake/issues"
   },
-  "homepage": "https://github.com/m-rejdych/multi-snake#readme"
+  "homepage": "https://github.com/m-rejdych/multi-snake#readme",
+  "devDependencies": {
+    "concurrently": "^6.2.0"
+  }
 }

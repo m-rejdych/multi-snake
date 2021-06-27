@@ -6,38 +6,36 @@
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "start:production": "npm run build && serve -s build"
-  },
-  "engines": {
-    "node": "16.1.0"
+    "start:prod": "npm run build && serve -s build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
   "dependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@babel/preset-react": "^7.14.5",
     "@chakra-ui/icons": "^1.0.13",
     "@chakra-ui/react": "^1.6.4",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
-    "@babel/core": "^7.14.6",
-    "@babel/preset-env": "^7.14.7",
-    "@babel/preset-react": "^7.14.5",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "*",
     "dotenv-webpack": "^7.0.3",
-    "html-webpack-plugin": "^5.3.2",
-    "serve": "^12.0.0",
-    "webpack": "^5.40.0",
-    "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^5.8.0",
     "framer-motion": "^4.1.17",
+    "html-webpack-plugin": "^5.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "redux": "^4.1.0",
-    "socket.io-client": "^4.1.2"
+    "socket.io-client": "^4.1.2",
+    "webpack": "^5.40.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-merge": "^5.8.0"
+  },
+  "devDependencies": {
+    "serve": "^12.0.0",
+    "webpack-dev-server": "^3.11.2"
   }
 }
